@@ -14,9 +14,6 @@
 # limitations under the License.
 #
 
-## Specify phone tech before including full_phone
-$(call inherit-product, vendor/cm/config/gsm.mk)
-
 # Release name
 PRODUCT_RELEASE_NAME := a7lte
 
@@ -32,3 +29,7 @@ PRODUCT_NAME := cm_a7lte
 PRODUCT_BRAND := samsung
 PRODUCT_MODEL := a7lte
 PRODUCT_MANUFACTURER := samsung
+
+#Set build fingerprint / ID / Prduct Name ect.
+PRODUCT_BUILD_PROP_OVERRIDES += BUILD_FINGERPRINT=samsung/a7ltexx/a7lte:5.0.2/LRX22G/A700FDXXU1BOE6:user/release-keys 
+PRIVATE_BUILD_DESC="a7ltexx-user 5.0.2 LRX22G A700FDXXU1BOE6 release-keys"
