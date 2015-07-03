@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+LOCAL_PATH := device/samsung/a7lte
+
 # Inherit from the proprietary version
 -include vendor/samsung/a7lte/BoardConfigVendor.mk
 
@@ -30,6 +32,9 @@ ARCH_ARM_HAVE_TLS_REGISTER := true
 
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8916
+
+# Bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
 # Kernel
 BOARD_KERNEL_BASE := 0x80000000
