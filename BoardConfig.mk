@@ -22,19 +22,13 @@ LOCAL_PATH := device/samsung/a7lte
 # Inherit from the proprietary version
 -include vendor/samsung/a7lte/BoardConfigVendor.mk
 
-# Architecture
-TARGET_ARCH := arm
-TARGET_NO_BOOTLOADER := true
-TARGET_BOARD_PLATFORM := unknown
-TARGET_CPU_ABI := armeabi-v7a
-TARGET_CPU_ABI2 := armeabi
-TARGET_ARCH_VARIANT := armv7-a-neon
-TARGET_CPU_VARIANT := cortex-a7
-TARGET_CPU_SMP := true
-ARCH_ARM_HAVE_TLS_REGISTER := true
-
-# Bootloader
+# Platform
+TARGET_BOARD_PLATFORM := msm8916
+TARGET_BOARD_PLATFORM_GPU := qcom-adreno405
 TARGET_BOOTLOADER_BOARD_NAME := MSM8916
+
+# Architecture
+TARGET_CPU_VARIANT := cortex-a53
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
