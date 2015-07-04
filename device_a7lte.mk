@@ -16,13 +16,21 @@
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
+# Proprietary files
+$(call inherit-product-if-exists, vendor/samsung/a7lte/a7lte-vendor.mk)
+
 LOCAL_PATH := device/samsung/a7lte
 
 # Overlay
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
-# Proprietary files
-$(call inherit-product-if-exists, vendor/samsung/a7lte/a7lte-vendor.mk)
+# Device uses high-density artwork where available
+PRODUCT_AAPT_CONFIG := normal
+PRODUCT_AAPT_PREF_CONFIG := xxhdpi
+
+# Boot animation
+TARGET_SCREEN_HEIGHT := 1920
+TARGET_SCREEN_WIDTH := 1080
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
