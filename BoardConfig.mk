@@ -14,6 +14,9 @@
 # limitations under the License.
 #
 
+# Inherit from qcom-common
+-include device/samsung/qcom-common/BoardConfigCommon.mk
+
 LOCAL_PATH := device/samsung/a7lte
 
 # Inherit from the proprietary version
