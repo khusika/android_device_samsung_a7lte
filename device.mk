@@ -79,6 +79,3 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/hostapd.deny:system/etc/hostapd/hostapd.deny \
     $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf
-
-# Inherit from qcom-common
-$(call inherit-product, device/samsung/qcom-common/qcom-common.mk)

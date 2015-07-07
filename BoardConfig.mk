@@ -14,9 +14,6 @@
 # limitations under the License.
 #
 
-# Inherit from qcom-common
--include device/samsung/qcom-common/BoardConfigCommon.mk
-
 LOCAL_PATH := device/samsung/a7lte
 
 # Inherit from the proprietary version
@@ -28,7 +25,11 @@ TARGET_BOARD_PLATFORM_GPU := qcom-adreno405
 TARGET_BOOTLOADER_BOARD_NAME := MSM8916
 
 # Architecture
+TARGET_ARCH := arm
+TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_CPU_VARIANT := cortex-a53
+TARGET_CPU_ABI := armeabi-v7a
+TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
 ARCH_ARM_HAVE_TLS_REGISTER := true
 
@@ -75,6 +76,16 @@ TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/fstab.qcom
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_HAS_NO_SELECT_BUTTON := true
+
+# Charger
+BOARD_BATTERY_DEVICE_NAME := "battery"
+BOARD_CHARGING_CMDLINE_NAME := "androidboot.mode"
+BOARD_CHARGING_CMDLINE_VALUE := "charger"
+BOARD_CHARGER_ENABLE_SUSPEND := true
+BOARD_CHARGER_SHOW_PERCENTAGE := true
+
+# Healthd
+BOARD_HAL_STATIC_LIBRARIES := libhealthd.qcom
 
 # Wifi
 BOARD_HAS_QCOM_WLAN              := true
