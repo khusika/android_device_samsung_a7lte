@@ -78,6 +78,10 @@ PRODUCT_PACKAGES += \
     libtinyxml \
     memtrack.msm8916
 
+# IRSC
+PRODUCT_PACKAGES += \
+    $(LOCAL_PATH)/configs/sec_config:system/etc/sec_config
+
 # Keystore
 PRODUCT_PACKAGES += \
     keystore.msm8916
