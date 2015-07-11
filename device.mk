@@ -82,6 +82,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     keystore.msm8916
 
+# Power HAL
+PRODUCT_PACKAGES += \
+    power.msm8916
+
 # Ramdisk
 PRODUCT_PACKAGES += \
     init.crda.sh \

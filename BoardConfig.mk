@@ -78,6 +78,9 @@ USE_OPENGL_RENDERER := true
 # Fonts
 EXTENDED_FONT_FOOTPRINT := true
 
+# Power
+TARGET_POWERHAL_VARIANT := qcom
+
 # Recovery
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/fstab.qcom
 TARGET_USERIMAGES_USE_EXT4 := true
