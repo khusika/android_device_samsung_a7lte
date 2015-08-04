@@ -14,15 +14,13 @@
 # limitations under the License.
 #
 
-$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
-
 # Proprietary files
-$(call inherit-product-if-exists, vendor/samsung/a7lte/a7lte-vendor.mk)
+$(call inherit-product, vendor/samsung/a7lte/a7lte-vendor.mk)
 
-LOCAL_PATH := device/samsung/a7lte
+VENDOR_PATH := device/samsung/a7lte
 
 # Overlay
-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
+DEVICE_PACKAGE_OVERLAYS += $(VENDOR_PATH)/overlay
 
 # Device uses high-density artwork where available
 PRODUCT_AAPT_CONFIG := normal
@@ -32,63 +30,29 @@ PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 TARGET_SCREEN_HEIGHT := 1920
 TARGET_SCREEN_WIDTH := 1080
 
-# Support files
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
-    frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
-    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
-    frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
-    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
-    frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
-    frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-    frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
-    frameworks/native/data/etc/android.hardware.sensor.compass.xml:system/etc/permissions/android.hardware.sensor.compass.xml \
-    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
-    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
-    frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
-    frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-    frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
-    frameworks/native/data/etc/android.hardware.ethernet.xml:system/etc/permissions/android.hardware.ethernet.xml
-
-# Keylayouts
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-    $(LOCAL_PATH)/keylayout/sec_touchkey.kl:system/usr/keylayout/sec_touchkey.kl \
-    $(LOCAL_PATH)/keylayout/synaptics_rmi4_i2c.kl:system/usr/keylayout/synaptics_rmi4_i2c.kl
+$(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
+$(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
 
 # Audio Configuration
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/audio/audio_effects.conf:system/vendor/etc/audio_effects.conf \
-    $(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
-    $(LOCAL_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths.xml
+    $(VENDOR_PATH)/audio/acdb/Bluetooth_cal.acdb:system/etc/Bluetooth_cal.acdb \
+    $(VENDOR_PATH)/audio/acdb/General_cal.acdb:system/etc/General_cal.acdb \
+    $(VENDOR_PATH)/audio/acdb/Global_cal.acdb:system/etc/Global_cal.acdb \
+    $(VENDOR_PATH)/audio/acdb/Handset_cal.acdb:system/etc/Handset_cal.acdb \
+    $(VENDOR_PATH)/audio/acdb/Hdmi_cal.acdb:system/etc/Hdmi_cal.acdb \
+    $(VENDOR_PATH)/audio/acdb/Headset_cal.acdb:system/etc/Headset_cal.acdb \
+    $(VENDOR_PATH)/audio/acdb/Speaker_cal.acdb:system/etc/Speaker_cal.acdb \
+    $(VENDOR_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
+    $(VENDOR_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths.xml
+
+# Camera
+PRODUCT_PACKAGES += \
+    camera.msm8916 \
+    libmm-qcamera
 
 # Media
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml  \
-    $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml
-
-# Display
-PRODUCT_PACKAGES += \
-    copybit.msm8916 \
-    gralloc.msm8916 \
-    hwcomposer.msm8916 \
-    libtinyxml \
-    memtrack.msm8916
-
-# IRSC
-PRODUCT_PACKAGES += \
-    $(LOCAL_PATH)/configs/sec_config:system/etc/sec_config
-
-# Keystore
-PRODUCT_PACKAGES += \
-    keystore.msm8916
-
-# Power HAL
-PRODUCT_PACKAGES += \
-    power.msm8916
+    $(VENDOR_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml
 
 # Ramdisk
 PRODUCT_PACKAGES += \
@@ -101,15 +65,6 @@ PRODUCT_PACKAGES += \
     init.qcom.usb.rc \
     ueventd.qcom.rc
 
-# Thermal
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/thermal-engine.conf:system/etc/thermal-engine.conf
-
-# Default.prop overrides to get adb working at boot   
-ADDITIONAL_DEFAULT_PROPERTIES += \
-    ro.secure=0 \
-    ro.adb.secure=0 \
-
 # Wifi
 PRODUCT_PACKAGES += \
     hostapd \
@@ -117,14 +72,23 @@ PRODUCT_PACKAGES += \
     wpa_supplicant_overlay.conf \
     wcnss_service
 
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/hostapd.accept:system/etc/hostapd/hostapd.accept \
-    $(LOCAL_PATH)/configs/hostapd.conf:system/etc/hostapd/hostapd_default.conf \
-    $(LOCAL_PATH)/configs/hostapd.deny:system/etc/hostapd/hostapd.deny \
-    $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
-    $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf
+PRODUCT_PACKAGES += \
+    libcurl \
+    libqsap_sdk \
+    libQWiFiSoftApCfg \
+    wcnss_service
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:system/etc/wifi/WCNSS_qcom_cfg.ini \
-    $(LOCAL_PATH)/wifi/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
-    $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
+    $(VENDOR_PATH)/configs/hostapd.accept:system/etc/hostapd/hostapd.accept \
+    $(VENDOR_PATH)/configs/hostapd.conf:system/etc/hostapd/hostapd_default.conf \
+    $(VENDOR_PATH)/configs/hostapd.deny:system/etc/hostapd/hostapd.deny \
+    $(VENDOR_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
+    $(VENDOR_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf
+
+PRODUCT_COPY_FILES += \
+    $(VENDOR_PATH)/wifi/WCNSS_qcom_cfg.ini:system/etc/wifi/WCNSS_qcom_cfg.ini \
+    $(VENDOR_PATH)/wifi/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
+    $(VENDOR_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
+
+# Inherit from msm8939-common
+$(call inherit-product, device/samsung/msm8939-common/msm8939.mk)
