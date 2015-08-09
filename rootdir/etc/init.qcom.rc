@@ -35,21 +35,15 @@ on early-init
 on init
     # Set permissions for persist partition
     mkdir /persist 0771 system system
-    mkdir /preload 0771 system system
-
-    # See storage config details at http://source.android.com/tech/storage/
-    mkdir /mnt/media_rw/extSdCard 0700 media_rw media_rw
-    mkdir /mnt/media_rw/UsbDriveA 0700 media_rw media_rw
-    mkdir /mnt/media_rw/UsbDriveB 0700 media_rw media_rw
-    mkdir /mnt/media_rw/UsbDriveC 0700 media_rw media_rw
-    mkdir /mnt/media_rw/UsbDriveD 0700 media_rw media_rw
-    mkdir /mnt/media_rw/UsbDriveE 0700 media_rw media_rw
-    mkdir /mnt/media_rw/UsbDriveF 0700 media_rw media_rw
-    
+    mkdir /preload 0771 system system    
 
     # See storage config details at http://source.android.com/tech/storage/
     mkdir /mnt/shell/emulated 0700 shell shell
     mkdir /storage/emulated 0555 root root
+
+    # External storage directories
+    mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
+    mkdir /mnt/media_rw/usbdisk 0700 media_rw media_rw
 
     export EXTERNAL_STORAGE /storage/emulated/legacy
     export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
@@ -63,22 +57,8 @@ on init
     symlink /storage/emulated/legacy /storage/sdcard0
     symlink /mnt/shell/emulated/0 /storage/emulated/legacy
 
-    # map "real" external storages paths also in same way. backwards compatibility.
-    symlink /storage/extSdCard /mnt/extSdCard
-    symlink /storage/UsbDriveA /mnt/UsbDriveA
-    symlink /storage/UsbDriveB /mnt/UsbDriveB
-    symlink /storage/UsbDriveC /mnt/UsbDriveC
-    symlink /storage/UsbDriveD /mnt/UsbDriveD
-    symlink /storage/UsbDriveE /mnt/UsbDriveE
-    symlink /storage/UsbDriveF /mnt/UsbDriveF
-
-    mkdir /storage/extSdCard 0700 root root
-    mkdir /storage/UsbDriveA 0700 root root
-    mkdir /storage/UsbDriveB 0700 root root
-    mkdir /storage/UsbDriveC 0700 root root
-    mkdir /storage/UsbDriveD 0700 root root
-    mkdir /storage/UsbDriveE 0700 root root
-    mkdir /storage/UsbDriveF 0700 root root
+on fs
+    mount_all fstab.qcom
 
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
@@ -391,11 +371,6 @@ on property:sys.boot_completed=1
 on property:persist.radio.atfwd.start=false
     stop atfwd
 
-service qcom-debug /system/bin/sh /system/etc/init.qcom.debug.sh
-    class core
-    user root
-    oneshot
-
 # corefile limit and ETB enabling
 on property:persist.debug.trace=1
     mkdir /data/core 0777 root root
@@ -444,16 +419,6 @@ on property:bluetooth.startbtsnoop=true
 
 on property:bluetooth.startbtsnoop=false
     stop btsnoop
-
-service qcom-c_core-sh /system/bin/sh /init.qcom.class_core.sh
-    class core
-    user root
-    oneshot
-
-service qcom-c_main-sh /system/bin/sh /init.class_main.sh
-    class main
-    user root
-    oneshot
 
 on property:vold.decrypt=trigger_restart_framework
     start qcom-c_main-sh
@@ -515,13 +480,6 @@ on property:bluetooth.hciattach=true
 
 on property:bluetooth.hciattach=false
     setprop bluetooth.status off
-
-service hciattach_ath3k /system/bin/sh /system/etc/init.ath3k.bt.sh
-     class late_start
-     user bluetooth
-     group system bluetooth net_bt_admin misc
-     disabled
-     oneshot
 
 service bt-dun /system/bin/dun-server /dev/smd7 /dev/rfcomm0
     class late_start
@@ -752,11 +710,6 @@ service dhcpcd_bnep4 /system/bin/dhcpcd -BKLG
     disabled
     oneshot
 
-service sec-sh /system/bin/sh /system/etc/init.sec.boot.sh
-    class main
-    user root
-    oneshot
-
 service loc_launcher /system/bin/loc_launcher
     #loc_launcher will start as root and set its uid to gps
     class late_start
@@ -789,18 +742,6 @@ service qcom-sh /system/bin/sh /init.qcom.sh
     class late_start
     user root
     oneshot
-
-service qcom-post-boot /system/bin/sh /system/etc/init.qcom.post_boot.sh
-    class late_start
-    user root
-    disabled
-    oneshot
-
-service config-zram /system/bin/sh /system/etc/init.qcom.zram.sh
-   class late_start
-   user root
-   disabled
-   oneshot
 
 on property:sys.boot_completed=1
     start qcom-post-boot
@@ -844,28 +785,6 @@ service battery_monitor /system/bin/battery_monitor
     group system
     disabled
 
-#service ril-daemon2 /system/bin/rild -c 2
-#    class main
-#    socket rild2 stream 660 root radio
-#    socket rild-debug2 stream 660 radio system
-#    user root
-#    disabled
-#    group radio cache inet misc audio sdcard_r sdcard_rw diag qcom_diag log
-
-#service ril-daemon3 /system/bin/rild -c 3
-#    class main
-#    socket rild3 stream 660 root radio
-#    socket rild-debug3 stream 660 radio system
-#    user root
-#    disabled
-#    group radio cache inet misc audio sdcard_r sdcard_rw diag qcom_diag log
-
-service usb_uicc_enable /system/bin/sh /system/etc/init.qcom.uicc.sh
-    class late_start
-    user root
-    disabled
-    oneshot
-
 service usb_uicc_daemon /system/bin/usb_uicc_client
     class main
     user system
@@ -895,47 +814,6 @@ service fuse_extSdCard /system/bin/sdcard -u 1023 -g 1023 -w 1023 -d -f /mnt/med
     disabled
     oneshot
 
-service fuse_UsbDriveA /system/bin/sdcard -u 1023 -g 1023 -d -f /mnt/media_rw/UsbDriveA /storage/UsbDriveA
-    class late_start
-    disabled
-    oneshot
-
-service fuse_UsbDriveB /system/bin/sdcard -u 1023 -g 1023 -d -f /mnt/media_rw/UsbDriveB /storage/UsbDriveB
-    class late_start
-    disabled
-    oneshot
-
-service fuse_UsbDriveC /system/bin/sdcard -u 1023 -g 1023 -d -f /mnt/media_rw/UsbDriveC /storage/UsbDriveC
-    class late_start
-    disabled
-    oneshot
-
-service fuse_UsbDriveD /system/bin/sdcard -u 1023 -g 1023 -d -f /mnt/media_rw/UsbDriveD /storage/UsbDriveD
-    class late_start
-    disabled
-    oneshot
-
-service fuse_UsbDriveE /system/bin/sdcard -u 1023 -g 1023 -d -f /mnt/media_rw/UsbDriveE /storage/UsbDriveE
-    class late_start
-    disabled
-    oneshot
-
-service fuse_UsbDriveF /system/bin/sdcard -u 1023 -g 1023 -d -f /mnt/media_rw/UsbDriveF /storage/UsbDriveF
-    class late_start
-    disabled
-    oneshot
-
-# Binding fuse mount point to /storage/emulated/legacy
-#on property:init.svc.sdcard=running
-#    wait /mnt/shell/emulated/0
-#    mount none /mnt/shell/emulated/0 /storage/emulated/legacy bind
-
-service hcidump /system/bin/sh /system/etc/hcidump.sh
-    user bluetooth
-    group bluetooth system net_bt_admin net_admin
-    disabled
-    oneshot
-
 service charger /charger
     class charger
 
@@ -950,11 +828,6 @@ service fastmmi /system/bin/mmi
     user root
     group root
     disabled
-
-service fastmmisrv /system/bin/sh /init.qcom.factory.sh
-    user root
-    disabled
-    oneshot
 
 on mmi
     start fastmmisrv
@@ -1029,11 +902,6 @@ on property:persist.sys.rootagent=1
     start rootagent
 on property:persist.sys.rootagent=0
     stop rootagent
-
-service bms-sh /system/bin/sh /init.qcom.bms.sh
-    class core
-    user root
-    oneshot
 
 service vm_bms /system/bin/vm_bms
     user root
