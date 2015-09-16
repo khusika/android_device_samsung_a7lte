@@ -275,8 +275,6 @@ on boot
     mkdir /dev/socket/qmux_gps 0770 gps gps
     chmod 2770 /dev/socket/qmux_gps
 
-    setprop wifi.interface wlan0
-
     # Modem requires this
     chown root radio /proc/cmdline
     chmod 0644 /proc/cmdline
@@ -594,9 +592,6 @@ on property:bluetooth.isEnabled=true
     start btwlancoex
     write /sys/class/bluetooth/hci0/idle_timeout 7000
 
-on property:vold.decrypt=trigger_restart_framework
-    start config_bluetooth
-
 on property:persist.env.fastdorm.enabled=true
     setprop persist.radio.data_no_toggle 1
 
@@ -620,12 +615,6 @@ service rfs_access /system/bin/rfs_access
 
 on property:ro.boot.emmc=true
     start rfs_access
-
-service config_bluetooth /system/bin/sh /system/etc/init.qcom.bt.sh "onboot"
-    class core
-    user root
-    seclabel u:r:bluetooth_loader:s0
-    oneshot
 
 service hciattach /system/bin/sh /system/etc/init.qcom.bt.sh
     class late_start
