@@ -43,3 +43,19 @@ BOARD_HAS_NO_SELECT_BUTTON := true
 
 # File System
 BOARD_HAS_LARGE_FILESYSTEM := true
+
+# TWRP
+DEVICE_RESOLUTION := 1080x1920
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
+TARGET_RECOVERY_LCD_BACKLIGHT_PATH := "/sys/devices/virtual/lcd/panel/panel/brightness"
+TW_BRIGHTNESS_PATH := "/sys/devices/soc.0/1a00000.qcom,mdss_mdp/qcom,mdss_fb_primary.139/leds/lcd-backlight/brightness"
+TW_MAX_BRIGHTNESS := 255
+TW_NEW_ION_HEAP := true
+TW_TARGET_USES_QCOM_BSP := true
+TW_INTERNAL_STORAGE_PATH := "/data/media"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
+TW_EXTERNAL_STORAGE_PATH := "/external_sd"
+TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
+TW_MTP_DEVICE := /dev/usb_mtp_gadget
+RECOVERY_SDCARD_ON_DATA := true
