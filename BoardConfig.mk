@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-LOCAL_PATH := device/samsung/a7lte
+DEVICE_PATH := device/samsung/a7lte
 
 # Inherit from msm8939-common
 -include device/samsung/msm8939-common/BoardConfigCommon.mk
@@ -35,10 +35,10 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 4089446
 
 # Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 
 # Recovery
-TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.qcom
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
 BOARD_HAS_NO_SELECT_BUTTON := true
 
 # File System
