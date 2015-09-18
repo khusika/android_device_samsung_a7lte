@@ -14,6 +14,10 @@
 # limitations under the License.
 #
 
+# TWRP
+PRODUCT_COPY_FILES += \
+    device/samsung/a7lte/recovery/twrp.fstab:recovery/root/etc/twrp.fstab
+
 # Proprietary files
 $(call inherit-product, vendor/samsung/a7lte/a7lte-vendor.mk)
 
@@ -29,7 +33,6 @@ TARGET_SCREEN_HEIGHT := 1920
 TARGET_SCREEN_WIDTH := 1080
 
 $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
-$(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
 
 # Audio Configuration
 PRODUCT_COPY_FILES += \
@@ -51,10 +54,6 @@ PRODUCT_PACKAGES += \
 # Media
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml
-
-# TWRP
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/recovery/twrp.fstab:recovery/root/etc/twrp.fstab
 
 # Ramdisk
 PRODUCT_PACKAGES += \
