@@ -38,8 +38,9 @@ BOARD_PERSISTIMAGE_PARTITION_SIZE := 4089446
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 
 # Recovery
-TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/recovery.fstab
 BOARD_HAS_NO_SELECT_BUTTON := true
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/a7lte/recovery/recovery_keys.c
 
 # File System
 BOARD_HAS_LARGE_FILESYSTEM := true
