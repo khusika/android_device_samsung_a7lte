@@ -63,3 +63,6 @@ TW_EXTERNAL_STORAGE_PATH := "/external_sd"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
 TW_MTP_DEVICE := /dev/usb_mtp_gadget
 RECOVERY_SDCARD_ON_DATA := true
+
+# WIFI
+TARGET_PROVIDES_WCNSS_QMI := true

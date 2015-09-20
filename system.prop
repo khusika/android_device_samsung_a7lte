@@ -7,6 +7,8 @@ ro.allow.mock.location=1
 ro.debuggable=1
 ro.adb.secure=0
 persist.sys.usb.config=mtp,adb
+persist.service.adb.enable=1 
+persist.service.debuggable=1
 
 # RIL 
 rild.libpath=/system/lib/libsec-ril.so
