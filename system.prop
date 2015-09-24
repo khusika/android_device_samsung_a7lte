@@ -120,7 +120,7 @@ voice.record.conc.disabled=true
 voice.voip.conc.disabled=true
 
 # LCD Density
-#ro.sf.lcd_density=320
+ro.sf.lcd_density=320
 
 # set max background services
 ro.config.max_starting_bg=8
@@ -147,4 +147,4 @@ ro.sys.fw.empty_app_percent=50
 ro.sys.fw.trim_empty_percent=100
 ro.sys.fw.trim_cache_percent=100
 ro.sys.fw.trim_enable_memory=1073741824
-
+ro.vendor.extension_library=libqti-perfd-client.so
